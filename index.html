@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>C.P CROUSTY x M HOUSE | Premium Food Experience</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&family=Bebas+Neue&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollToPlugin.min.js"></script>
+
+    <style>
+        :root {
+            --primary: #f59e0b;
+            --primary-hover: #d97706;
+            --dark: #0a0a0a;
+            --dark-accent: #141414;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: var(--dark);
+            color: #ffffff;
+            scroll-behavior: smooth;
+            overflow-x: hidden;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .font-title { font-family: 'Bebas Neue', cursive; }
+
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: var(--dark); }
+        ::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 10px; }
+
+        #loader {
+            position: fixed;
+            inset: 0;
+            z-index: 100;
+            background: var(--dark);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .platform-link {
+            transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+        
+        .platform-link:active { transform: scale(0.95); }
+
+        .category-btn {
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+            border: 1px solid rgba(255,255,255,0.05);
+            background: rgba(255,255,255,0.02);
+        }
+
+        .category-btn.active {
+            background-color: var(--primary);
+            color: black;
+            box-shadow: 0 0 20px rgba(245, 158, 11, 0.3);
+            border-color: var(--primary);
+        }
+
+        .menu-card {
+            background: linear-gradient(145deg, rgba(25,25,25,1) 0%, rgba(10,10,10,1) 100%);
+            border: 1px solid rgba(255,255,255,0.05);
+            transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        .popular-badge {
+            background: var(--primary);
+            color: black;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.6rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        .bg-overlay {
+            background: linear-gradient(to bottom, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.9) 100%);
+        }
+
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+        /* Images always in color as requested */
+        .menu-card img {
+            filter: grayscale(0);
+            transition: transform 0.8s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        .reveal-text {
+            clip-path: polygon(0 0, 100% 0, 100% 0, 0 0);
+            transition: clip-path 1.2s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+        .reveal-text.active {
+            clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+        }
+
+        .js-ready #hero-tag, 
+        .js-ready #hero-title, 
+        .js-ready #hero-desc, 
+        .js-ready #hero-cta {
+            opacity: 1;
+            transform: none;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <div id="loader">
+        <div class="text-center px-6">
+            <h2 class="font-title text-6xl md:text-7xl mb-4" id="loader-text">C.P <span class="text-amber-500">CROUSTY</span></h2>
+            <div class="w-48 md:w-64 h-[2px] bg-white/10 mx-auto rounded-full overflow-hidden">
+                <div id="loader-bar" class="w-0 h-full bg-amber-500 transition-all duration-700"></div>
+            </div>
+        </div>
+    </div>
+
+    <nav id="navbar" class="fixed w-full z-50 py-4 md:py-6 px-4 md:px-12 transition-all duration-500">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <div class="flex flex-col cursor-pointer group" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
+                <span class="font-title text-2xl md:text-3xl tracking-tighter text-white group-hover:text-amber-500 transition-colors leading-none">
+                    C.P <span class="text-amber-500">CROUSTY</span>
+                </span>
+                <span class="font-title text-lg md:text-xl tracking-widest text-gray-500 group-hover:text-white transition-colors leading-none">
+                    X M HOUSE
+                </span>
+            </div>
+            
+            <div class="flex items-center gap-2 md:gap-4">
+                <a href="tel:0746449306" class="platform-link bg-white/5 p-2.5 md:p-3 rounded-xl border border-white/10 flex items-center gap-2 px-3 md:px-5 hover:bg-white/10">
+                    <i data-lucide="phone" class="w-4 h-4 text-amber-500"></i>
+                    <span class="hidden sm:inline text-[10px] font-black uppercase tracking-[0.2em]">Appeler</span>
+                </a>
+                <a href="#" target="_blank" class="platform-link bg-[#00ccbc] p-2.5 md:p-3 rounded-xl flex items-center gap-2 px-3 md:px-5">
+                    <img src="logo-deliveroo.png" class="w-4 h-4 brightness-0 invert" alt="Deliveroo">
+                    <span class="hidden sm:inline text-[10px] font-black text-white uppercase tracking-[0.2em]">Deliveroo</span>
+                </a>
+                <a href="#" target="_blank" class="platform-link bg-[#06C167] p-2.5 md:p-3 rounded-xl flex items-center gap-2 px-3 md:px-5">
+                    <img src="logo-uber.png" class="w-4 h-4 brightness-0 invert" alt="Uber Eats">
+                    <span class="hidden sm:inline text-[10px] font-black text-white uppercase tracking-[0.2em]">Uber Eats</span>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <section id="home" class="relative h-[90vh] md:h-screen flex items-center justify-center text-center px-6 overflow-hidden">
+        <div class="absolute inset-0 z-0" id="hero-bg-container">
+            <div class="absolute inset-0 bg-overlay z-10"></div>
+            <img src="fond.jpg" onerror="this.src='https://images.unsplash.com/photo-1555396273-367ea4eb4db5?q=80&w=1920'" class="w-full h-full object-cover" id="hero-img" alt="Background">
+        </div>
+
+        <div class="relative z-20 max-w-5xl">
+            <div id="hero-tag" class="inline-flex items-center gap-3 px-4 py-2 rounded-full bg-amber-500/10 text-amber-500 text-[9px] md:text-[10px] font-bold uppercase tracking-[0.3em] mb-6 md:mb-8 border border-amber-500/20 opacity-0 translate-y-4">
+                <span class="relative flex h-2 w-2">
+                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75"></span>
+                    <span class="relative inline-flex rounded-full h-2 w-2 bg-amber-500"></span>
+                </span>
+                Ouvert • 12:00 — 23:59
+            </div>
+            <h1 id="hero-title" class="font-title text-7xl md:text-[13rem] leading-[0.85] md:leading-[0.8] mb-6 md:mb-8 opacity-0 translate-y-8 uppercase">
+                Premium <br><span class="text-amber-500 italic">Crousty</span>
+            </h1>
+            <p id="hero-desc" class="text-gray-400 text-base md:text-xl max-w-2xl mx-auto mb-10 md:mb-12 leading-relaxed opacity-0 translate-y-4 px-4">
+                L'excellence culinaire de Drancy. Recettes authentiques, ingrédients frais et passion partagée.
+            </p>
+            <div id="hero-cta" class="flex flex-col md:flex-row gap-4 justify-center opacity-0 translate-y-4">
+                <a href="#menu" class="bg-amber-500 text-black px-10 md:px-12 py-4 md:py-5 rounded-xl md:rounded-2xl text-xs md:text-sm font-black uppercase tracking-[0.2em] hover:bg-white transition-all duration-300 flex items-center justify-center gap-3 group">
+                    Explorer la Carte <i data-lucide="arrow-down" class="w-4 h-4 group-hover:translate-y-1 transition-transform"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <section id="menu" class="py-20 md:py-32 px-4 md:px-12 bg-black relative">
+        <div class="max-w-7xl mx-auto">
+            <div class="flex flex-col lg:flex-row justify-between items-start lg:items-end mb-12 md:mb-20 gap-8">
+                <div id="menu-header-container">
+                    <h2 class="font-title text-6xl md:text-9xl mb-4 tracking-tighter uppercase reveal-text" id="menu-main-title">La <span class="text-amber-500">Carte</span></h2>
+                    <div class="flex flex-wrap items-center gap-4 md:gap-6 text-gray-500 text-[9px] md:text-xs font-semibold uppercase tracking-widest opacity-0 translate-y-4" id="menu-sub-header">
+                        <div class="flex items-center gap-2">
+                            <i data-lucide="check-circle" class="w-4 h-4 text-amber-500"></i>
+                            <span>Ticket Resto / Pluxee / UpDéjeuner</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="flex gap-2 w-full lg:w-auto overflow-x-auto pb-4 lg:pb-0 no-scrollbar" id="category-nav">
+                    <button class="category-btn active px-5 md:px-6 py-2.5 md:py-3 rounded-xl text-[9px] md:text-[10px] font-black uppercase tracking-widest" data-category="entrées">Entrées</button>
+                    <button class="category-btn px-5 md:px-6 py-2.5 md:py-3 rounded-xl text-[9px] md:text-[10px] font-black uppercase tracking-widest" data-category="salades">Salades</button>
+                    <button class="category-btn px-5 md:px-6 py-2.5 md:py-3 rounded-xl text-[9px] md:text-[10px] font-black uppercase tracking-widest" data-category="pâtes">Pâtes</button>
+                    <button class="category-btn px-5 md:px-6 py-2.5 md:py-3 rounded-xl text-[9px] md:text-[10px] font-black uppercase tracking-widest" data-category="raviolis">Raviolis</button>
+                    <button class="category-btn px-5 md:px-6 py-2.5 md:py-3 rounded-xl text-[9px] md:text-[10px] font-black uppercase tracking-widest" data-category="burgers">Burgers</button>
+                    <button class="category-btn px-5 md:px-6 py-2.5 md:py-3 rounded-xl text-[9px] md:text-[10px] font-black uppercase tracking-widest" data-category="menus burgers">Menus Burgers</button>
+                    <button class="category-btn px-5 md:px-6 py-2.5 md:py-3 rounded-xl text-[9px] md:text-[10px] font-black uppercase tracking-widest" data-category="dolce">Desserts</button>
+                    <button class="category-btn px-5 md:px-6 py-2.5 md:py-3 rounded-xl text-[9px] md:text-[10px] font-black uppercase tracking-widest" data-category="boissons">Boissons</button>
+                </div>
+            </div>
+
+            <div id="menu-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+                <!-- Injection via JS -->
+            </div>
+        </div>
+    </section>
+
+    <section id="reviews" class="py-20 md:py-32 bg-zinc-950 relative overflow-hidden">
+        <div class="max-w-7xl mx-auto px-6 relative z-10">
+            <div class="grid lg:grid-cols-2 gap-16 md:gap-24 items-center">
+                <div data-aos="fade-right">
+                    <h2 class="font-title text-6xl md:text-7xl mb-8 uppercase">Expérience <br><span class="text-amber-500 italic text-5xl md:text-6xl">Approuvée</span></h2>
+                    <div class="flex items-center gap-6 mb-10 md:12 bg-white/5 p-6 md:p-8 rounded-[30px] md:rounded-[40px] border border-white/5 w-fit">
+                        <div class="text-5xl md:text-7xl font-black text-white">4.5</div>
+                        <div>
+                            <div class="flex text-amber-500 mb-1">
+                                <i data-lucide="star" class="fill-current w-4 h-4 md:w-5 md:h-5"></i>
+                                <i data-lucide="star" class="fill-current w-4 h-4 md:w-5 md:h-5"></i>
+                                <i data-lucide="star" class="fill-current w-4 h-4 md:w-5 md:h-5"></i>
+                                <i data-lucide="star" class="fill-current w-4 h-4 md:w-5 md:h-5"></i>
+                                <i data-lucide="star-half" class="fill-current w-4 h-4 md:w-5 md:h-5"></i>
+                            </div>
+                            <p class="text-gray-500 text-[8px] md:text-[10px] uppercase font-black tracking-widest">700+ Avis Clients</p>
+                        </div>
+                    </div>
+
+                    <div class="space-y-4 md:space-y-6">
+                        <div class="bg-white/[0.02] p-6 md:p-8 rounded-[24px] md:rounded-[32px] border border-white/5">
+                            <div class="flex justify-between items-center mb-4">
+                                <span class="font-bold text-base md:text-lg">Abdoulaye C.</span>
+                                <span class="text-amber-500/50 text-[9px] font-bold">20/04/26</span>
+                            </div>
+                            <p class="text-gray-400 text-base md:text-lg leading-relaxed italic">"Service au top meilleur riz croustillant merci a vous"</p>
+                        </div>
+                        <div class="bg-white/[0.02] p-6 md:p-8 rounded-[24px] md:rounded-[32px] border border-white/5">
+                            <div class="flex justify-between items-center mb-4">
+                                <span class="font-bold text-base md:text-lg">Slavko V.</span>
+                                <span class="text-amber-500/50 text-[9px] font-bold">17/04/26</span>
+                            </div>
+                            <p class="text-gray-400 text-base md:text-lg leading-relaxed italic">"Gentil et rapide."</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="relative group" data-aos="zoom-in">
+                    <div class="absolute inset-0 bg-amber-500 rounded-[30px] md:rounded-[50px] rotate-2"></div>
+                    <img src="https://images.unsplash.com/photo-1551782450-a2132b4ba21d?q=80&w=800" class="relative rounded-[30px] md:rounded-[50px] shadow-2xl object-cover w-full h-[400px] md:h-[600px]" alt="Burger">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer id="contact" class="bg-black pt-20 md:pt-40 pb-10 md:pb-12 px-6 border-t border-white/5">
+        <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-16 md:gap-20 mb-20 md:mb-24">
+            <div>
+                <h3 class="font-title text-5xl md:text-6xl mb-4 uppercase">C.P <span class="text-amber-500">CROUSTY</span></h3>
+                <p class="text-gray-500 mb-8 md:mb-10 max-w-xs leading-relaxed uppercase text-xs tracking-wider">L'expérience premium à Drancy.</p>
+                <div class="flex gap-4">
+                    <a href="#" class="w-12 h-12 md:w-14 md:h-14 rounded-xl bg-white/5 flex items-center justify-center hover:bg-amber-500 hover:text-black transition-all">
+                        <i data-lucide="instagram" class="w-5 h-5"></i>
+                    </a>
+                </div>
+            </div>
+            
+            <div class="space-y-6 md:space-y-8">
+                <h4 class="text-[9px] md:text-[10px] font-black uppercase tracking-[0.4em] text-amber-500">Infos Pratiques</h4>
+                <div class="space-y-4 md:space-y-6">
+                    <div class="flex items-start gap-4">
+                        <i data-lucide="map-pin" class="w-4 h-4 text-amber-500 mt-1"></i>
+                        <p class="text-gray-400 font-medium text-sm md:text-base">208 Av. Jean Jaurès, 93700 Drancy</p>
+                    </div>
+                    <div class="flex items-start gap-4">
+                        <i data-lucide="clock" class="w-4 h-4 text-amber-500 mt-1"></i>
+                        <p class="text-gray-400 font-medium text-sm md:text-base uppercase tracking-wider">12:00 — 23:59</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white/5 p-8 md:p-10 rounded-[30px] border border-white/10">
+                <h4 class="text-[9px] md:text-[10px] font-black uppercase tracking-[0.4em] text-white mb-6">Commander</h4>
+                <div class="space-y-3">
+                    <a href="#" class="flex items-center justify-between p-4 bg-white/5 rounded-xl hover:bg-white/10 border border-white/5">
+                        <span class="font-bold text-sm uppercase tracking-widest">Uber Eats</span>
+                        <i data-lucide="external-link" class="w-4 h-4 text-amber-500"></i>
+                    </a>
+                    <a href="#" class="flex items-center justify-between p-4 bg-white/5 rounded-xl hover:bg-white/10 border border-white/5">
+                        <span class="font-bold text-sm uppercase tracking-widest">Deliveroo</span>
+                        <i data-lucide="external-link" class="w-4 h-4 text-amber-500"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="text-center pt-8 border-t border-white/5 text-gray-700 text-[8px] md:text-[9px] font-black uppercase tracking-[0.4em]">
+            &copy; 2024 C.P CROUSTY x M HOUSE - DRANCY.
+        </div>
+    </footer>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
+
+        const menuItems = [
+            // ENTRÉES (4 items)
+            { id: 1, name: "Crevettes du chef", category: "entrées", price: 7.00, desc: "Crevettes nappées de sauce tomate au basilic, surmontées d'une tomate cerise.", popular: false, img: "crevettes.jpg" },
+            { id: 2, name: "Chèvre pané et miel", category: "entrées", price: 7.00, desc: "Chèvre pané croustillant, cœur fondant, nappé de miel.", popular: true, img: "chevre.jpg" },
+            { id: 3, name: "Buratta", category: "entrées", price: 7.00, desc: "Fromage italien à pâte filée, cœur crémeux de stracciatella.", popular: false, img: "buratta.jpg" },
+            { id: 4, name: "Tenders maison", category: "entrées", price: 7.00, desc: "Morceaux de filets de poulet préparés maison, parfaits en entrée.", popular: true, img: "tenders.jpg" },
+
+            // SALADES (3 items)
+            { id: 5, name: "Salade César", category: "salades", price: 12.00, desc: "Servi avec boisson 33 cl au choix.", popular: true, img: "cesar.jpg" },
+            { id: 6, name: "Salade crevettes avocat", category: "salades", price: 12.00, desc: "Servi avec boisson 33 cl au choix.", popular: false, img: "crevettes.jpg" },
+            { id: 7, name: "Salade chèvre miel", category: "salades", price: 12.00, desc: "Servi avec boisson 33 cl au choix.", popular: false, img: "chevre.jpg" },
+
+            // PÂTES (9 items)
+            { id: 8, name: "Pâtes arrabiata", category: "pâtes", price: 12.00, desc: "Servi avec boisson 33 cl au choix.", popular: false, img: "arrabiata.jpg" },
+            { id: 9, name: "Pâtes bolognaise", category: "pâtes", price: 13.00, desc: "Servi avec boisson 33 cl au choix.", popular: false, img: "bolognaise.jpg" },
+            { id: 10, name: "Pâtes viande hachée à la crème", category: "pâtes", price: 13.00, desc: "Servi avec boisson 33 cl au choix.", popular: true, img: "viande.jpg" },
+            { id: 11, name: "Pâtes pesto crevettes", category: "pâtes", price: 13.00, desc: "Servi avec boisson 33 cl au choix.", popular: false, img: "pesto.jpg" },
+            { id: 12, name: "Pâtes poulet champignons", category: "pâtes", price: 13.00, desc: "Servi avec boisson 33 cl au choix.", popular: false, img: "poulet.jpg" },
+            { id: 13, name: "Pâtes carbonara", category: "pâtes", price: 13.00, desc: "Servi avec boisson 33 cl au choix.", popular: true, img: "carbonara.jpg" },
+            { id: 14, name: "Pâtes saumon", category: "pâtes", price: 13.00, desc: "Servi avec boisson 33 cl au choix.", popular: false, img: "saumon.jpg" },
+            { id: 15, name: "Pâtes M House", category: "pâtes", price: 15.60, desc: "4 fromages, poulet miel et les épices du chef. Servi avec boisson 33 cl au choix.", popular: false, img: "m-house.jpg" },
+            { id: 16, name: "Pâtes crevettes crème", category: "pâtes", price: 13.00, desc: "Servi avec boisson 33 cl au choix.", popular: false, img: "crevettes-creme.jpg" },
+
+            // RAVIOLIS (4 items)
+            { id: 17, name: "Ravioli saumon pesto", category: "raviolis", price: 13.00, desc: "Servi avec boisson 33 cl au choix.", popular: false, img: "rsaumon.jpg" },
+            { id: 18, name: "Ravioli chèvre miel", category: "raviolis", price: 13.00, desc: "Servi avec boisson 33 cl au choix.", popular: false, img: "rchevre.jpg" },
+            { id: 19, name: "Ravioli 4 fromages", category: "raviolis", price: 13.00, desc: "Servi avec boisson 33 cl au choix.", popular: false, img: "r4fromages.jpg" },
+            { id: 20, name: "Ravioli tomates Mozzarella pesto", category: "raviolis", price: 13.00, desc: "Servi avec boisson 33 cl au choix.", popular: true, img: "rtomates.jpg" },
+
+            // BURGERS (11 items)
+            { id: 21, name: "Burger 4 fromages", category: "burgers", price: 10.00, desc: "Mélange de quatre fromages fondants.", popular: true, img: "burger-4-fromages.jpg" },
+            { id: 22, name: "Burger chèvre miel", category: "burgers", price: 10.00, desc: "Fromage de chèvre et miel, accord sucré-salé.", popular: false, img: "burger-chevre.jpg" },
+            { id: 23, name: "Burger Mozzarella", category: "burgers", price: 10.00, desc: "Mozzarella fondante, texture filante et goût doux.", popular: false, img: "burger-mozza.jpg" },
+            { id: 24, name: "Burger scatella", category: "burgers", price: 12.70, desc: "Steak haché, sauce blanche, concombre, tomates cerises et oignons.", popular: false, img: "burger-scatella.jpg" },
+            { id: 25, name: "Burger poulet", category: "burgers", price: 10.00, desc: "Filet de poulet pané croustillant, cheddar et salade émincée.", popular: false, img: "burger-poulet.jpg" },
+            { id: 26, name: "Burger poulet avocat", category: "burgers", price: 10.00, desc: "Filet de poulet croustillant, avocat, cheddar, salade et sauce.", popular: false, img: "burger-poulet-avocat.jpg" },
+            { id: 27, name: "Smash double burger", category: "burgers", price: 9.10, desc: "Deux steaks hachés, bords croustillants, cheddar fondu, salade.", popular: false, img: "burger-smash-double.jpg" },
+            { id: 28, name: "Smash triple burger", category: "burgers", price: 12.70, desc: "Trois steaks hachés empilés pour les amateurs de viande.", popular: false, img: "burger-smash-triple.jpg" },
+            { id: 29, name: "Smash bacon burger", category: "burgers", price: 12.70, desc: "2 steaks smashés, 2 cheddars, bacon, sauce maison et BBQ.", popular: false, img: "smash-bacon.jpg" },
+            { id: 30, name: "Smash double vache qui rit", category: "burgers", price: 16.90, desc: "Deux steaks hachés, garni de fromage La Vache qui rit fondant.", popular: false, img: "burger-smash-double-vache.jpg" },
+            { id: 31, name: "Smash double Boursin", category: "burgers", price: 16.90, desc: "Deux steaks hachés garnis de Boursin fondant.", popular: false, img: "burger-smash-double-boursin.jpg" },
+
+            // MENUS BURGERS (11 items)
+            { id: 32, name: "Menu smash double vache qui rit", category: "menus burgers", price: 16.90, desc: "Menu complet : Burger Vache qui rit, frites et boisson.", popular: false, img: "burger-smash-double-vache.jpg" },
+            { id: 33, name: "Menu smash double Boursin", category: "menus burgers", price: 16.90, desc: "Menu complet : Burger Boursin, frites et boisson.", popular: false, img: "burger-smash-double-boursin.jpg" },
+            { id: 34, name: "Menu burger 4 fromages", category: "menus burgers", price: 13.90, desc: "Servi avec frites et boisson 33 cl au choix.", popular: false, img: "burger-4-fromages.jpg" },
+            { id: 35, name: "Menu burger chèvre miel", category: "menus burgers", price: 13.90, desc: "Servi avec frites et boisson 33 cl au choix.", popular: true, img: "burger-chevre.jpg" },
+            { id: 36, name: "Menu burger Mozzarella", category: "menus burgers", price: 13.90, desc: "Servi avec frites et boisson 33 cl au choix.", popular: false, img: "burger-mozza.jpg" },
+            { id: 37, name: "Menu burger scatella", category: "menus burgers", price: 16.60, desc: "Servi avec frites et boisson 33 cl au choix.", popular: false, img: "burger-scatella.jpg" },
+            { id: 38, name: "Menu burger poulet", category: "menus burgers", price: 13.90, desc: "Servi avec frites et boisson 33 cl au choix.", popular: false, img: "burger-poulet.jpg" },
+            { id: 39, name: "Menu burger poulet avocat", category: "menus burgers", price: 13.90, desc: "Servi avec frites et boisson 33 cl au choix.", popular: false, img: "burger-poulet-avocat.jpg" },
+            { id: 40, name: "Menu smash double burger", category: "menus burgers", price: 13.00, desc: "Servi avec frites et boisson 33 cl au choix.", popular: false, img: "burger-smash-double.jpg" },
+            { id: 41, name: "Menu smash triple burger", category: "menus burgers", price: 16.60, desc: "Servi avec frites et boisson 33 cl au choix.", popular: false, img: "burger-smash-triple.jpg" },
+            { id: 42, name: "Menu smash bacon burger", category: "menus burgers", price: 16.60, desc: "Servi avec frites et boisson 33 cl au choix.", popular: false, img: "smash-bacon.jpg" },
+
+            // DOLCE (4 items)
+            { id: 43, name: "Tiramisu pistaches maison", category: "dolce", price: 5.00, desc: "Tiramisu maison à la pistache, crème mascarpone et biscuits.", popular: true, img: "tiramisu-pistache.jpg" },
+            { id: 44, name: "Tiramisu Nutella maison", category: "dolce", price: 5.00, desc: "Biscuits imbibés au café, crème mascarpone et Nutella.", popular: false, img: "tiramisu-nutella.jpg" },
+            { id: 45, name: "Tarte Daim", category: "dolce", price: 3.25, desc: "Tarte garnie d’éclats de Daim croquants, caramel et chocolat.", popular: false, img: "tarte-daim.jpg" },
+            { id: 46, name: "Tarte Snickers", category: "dolce", price: 3.25, desc: "Gourmandise au caramel, chocolat et cacahuètes.", popular: false, img: "tarte-snickers.jpg" },
+
+            // BOISSONS (18 items)
+            { id: 47, name: "San Pellegrino 50cl", category: "boissons", price: 1.90, desc: "Format 50 cl.", popular: false, img: "san-pellegrino.jpg" },
+            { id: 48, name: "Coca-Cola", category: "boissons", price: 1.90, desc: "Format 33 cl.", popular: false, img: "coca.jpg" },
+            { id: 49, name: "Coca-Cola cherry", category: "boissons", price: 1.90, desc: "Format 33 cl.", popular: false, img: "coca-cherry.jpg" },
+            { id: 50, name: "Coca-Cola zéro", category: "boissons", price: 1.90, desc: "Format 33 cl.", popular: false, img: "coca-zero.jpg" },
+            { id: 51, name: "Oasis tropical", category: "boissons", price: 1.90, desc: "Format 33 cl.", popular: false, img: "oasis-tropical.jpg" },
+            { id: 52, name: "Oasis fraise framboise", category: "boissons", price: 1.90, desc: "Format 33 cl.", popular: false, img: "oasis-fraise.jpg" },
+            { id: 53, name: "Lipton Ice Tea pêche", category: "boissons", price: 1.90, desc: "Format 33 cl.", popular: false, img: "ice-tea.jpg" },
+            { id: 54, name: "Orangina", category: "boissons", price: 1.90, desc: "Format 33 cl.", popular: false, img: "orangina.jpg" },
+            { id: 55, name: "Schweppes pêche", category: "boissons", price: 2.20, desc: "Format 33 cl.", popular: false, img: "schweppes-peche.jpg" },
+            { id: 56, name: "Schweppes ananas coco", category: "boissons", price: 2.20, desc: "Format 33 cl.", popular: false, img: "schweppes-ananas.jpg" },
+            { id: 57, name: "Schweppes grenadine", category: "boissons", price: 2.20, desc: "Format 33 cl.", popular: false, img: "schweppes-grenadine.jpg" },
+            { id: 58, name: "San Pellegrino aranciata rossa", category: "boissons", price: 2.20, desc: "Format 33 cl.", popular: false, img: "sp-orange.jpg" },
+            { id: 59, name: "San Pellegrino limonata", category: "boissons", price: 2.20, desc: "Format 33 cl.", popular: false, img: "sp-citron.jpg" },
+            { id: 60, name: "San Pellegrino melograno & arancia", category: "boissons", price: 2.20, desc: "Format 33 cl.", popular: false, img: "sp-grenade.jpg" },
+            { id: 61, name: "Evian", category: "boissons", price: 1.50, desc: "Format 33 cl.", popular: false, img: "evian.jpg" },
+            { id: 62, name: "Cristaline pêche", category: "boissons", price: 1.90, desc: "Format 33 cl.", popular: false, img: "cristaline-peche.jpg" },
+            { id: 63, name: "Cristaline fraise", category: "boissons", price: 1.90, desc: "Format 33 cl.", popular: false, img: "cristaline-fraise.jpg" },
+            { id: 64, name: "Cristaline pomme cassis framboise", category: "boissons", price: 1.90, desc: "Format 33 cl.", popular: false, img: "cristaline-pomme.jpg" }
+        ];
+
+        function initAnimations() {
+            const tl = gsap.timeline({
+                defaults: { ease: "expo.out" }
+            });
+
+            // On s'assure que les éléments sont bien là avant d'animer
+            tl.to("#hero-tag", { opacity: 1, y: 0, duration: 1 }, 0.2)
+              .to("#hero-title", { opacity: 1, y: 0, duration: 1.2 }, "-=0.8")
+              .to("#hero-desc", { opacity: 1, y: 0, duration: 1 }, "-=1")
+              .to("#hero-cta", { opacity: 1, y: 0, duration: 1, stagger: 0.1 }, "-=0.8");
+
+            gsap.to("#hero-bg-container", {
+                scrollTrigger: { 
+                    trigger: "#home", 
+                    start: "top top", 
+                    end: "bottom top", 
+                    scrub: true 
+                },
+                y: 150
+            });
+
+            // Navigation scroll
+            const ctaBtn = document.querySelector('a[href="#menu"]');
+            if(ctaBtn) {
+                ctaBtn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    gsap.to(window, {
+                        duration: 1.2,
+                        scrollTo: { y: "#menu", offsetY: 80 },
+                        ease: "power4.inOut"
+                    });
+                });
+            }
+
+            // Menu reveal
+            ScrollTrigger.create({
+                trigger: "#menu",
+                start: "top 85%",
+                onEnter: () => {
+                    document.getElementById('menu-main-title').classList.add('active');
+                    gsap.to("#menu-sub-header", { opacity: 1, y: 0, duration: 1, delay: 0.2 });
+                }
+            });
+
+            window.addEventListener('scroll', () => {
+                const nav = document.getElementById('navbar');
+                if (window.scrollY > 50) {
+                    nav.classList.add('bg-black/90', 'backdrop-blur-xl', 'py-4', 'border-b', 'border-white/10');
+                } else {
+                    nav.classList.remove('bg-black/90', 'backdrop-blur-xl', 'py-4', 'border-b', 'border-white/10');
+                }
+            });
+        }
+
+        function renderMenu(category) {
+            const grid = document.getElementById('menu-grid');
+            if(!grid) return;
+            
+            grid.innerHTML = '';
+            const filtered = menuItems.filter(i => i.category === category);
+            
+            filtered.forEach(item => {
+                const el = document.createElement('div');
+                el.className = 'menu-card rounded-[30px] overflow-hidden group opacity-0 translate-y-4';
+                el.innerHTML = `
+                    <div class="h-56 overflow-hidden relative bg-zinc-900">
+                        <img src="${item.img}" 
+                             onerror="this.src='https://placehold.co/600x400/18181b/fbbf24?text=${encodeURIComponent(item.name)}'"
+                             class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                        <div class="absolute top-4 left-4">
+                             ${item.popular ? '<span class="popular-badge">Populaire</span>' : ''}
+                        </div>
+                    </div>
+                    <div class="p-6 md:p-8">
+                        <div class="flex justify-between items-start mb-2">
+                            <h3 class="text-lg font-bold group-hover:text-amber-500 transition-colors uppercase tracking-wider">${item.name}</h3>
+                            <span class="text-amber-500 font-black text-lg ml-4">${item.price.toFixed(2)}€</span>
+                        </div>
+                        <p class="text-gray-500 text-xs leading-relaxed line-clamp-2 uppercase tracking-wide">${item.desc}</p>
+                    </div>
+                `;
+                grid.appendChild(el);
+            });
+            lucide.createIcons();
+            
+            // On remet la grille à l'opacité 1 et on anime les cartes avec un stagger
+            gsap.to("#menu-grid", { opacity: 1, y: 0, duration: 0.3 });
+            gsap.to(".menu-card", { opacity: 1, y: 0, stagger: 0.05, duration: 0.8, ease: "expo.out" });
+        }
+
+        function initApp() {
+            lucide.createIcons();
+            AOS.init({ once: true, duration: 1000 });
+            
+            renderMenu('entrées');
+            
+            // On attend que les images principales soient chargées ou un timeout
+            const loaderBar = document.getElementById('loader-bar');
+            if(loaderBar) loaderBar.style.width = '100%';
+
+            setTimeout(() => {
+                gsap.to("#loader", { 
+                    opacity: 0, 
+                    pointerEvents: 'none',
+                    duration: 0.8, 
+                    ease: "power2.inOut",
+                    onComplete: () => {
+                        document.getElementById('loader').style.display = 'none';
+                        initAnimations();
+                    } 
+                });
+            }, 800);
+
+            document.querySelectorAll('.category-btn').forEach(btn => {
+                btn.onclick = function() {
+                    if(this.classList.contains('active')) return;
+                    
+                    document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    const cat = this.getAttribute('data-category');
+                    
+                    gsap.to("#menu-grid", { 
+                        opacity: 0, 
+                        y: 10, 
+                        duration: 0.3, 
+                        onComplete: () => {
+                            renderMenu(cat);
+                            // On ne remonte pas tout en haut brusquement, on ajuste juste si besoin
+                            const menuPos = document.getElementById('menu').offsetTop - 100;
+                            if(window.scrollY > menuPos + 500) {
+                                window.scrollTo({ top: menuPos, behavior: 'smooth' });
+                            }
+                        }
+                    });
+                };
+            });
+        }
+
+        window.addEventListener('load', initApp);
+    </script>
+</body>
+</html>
